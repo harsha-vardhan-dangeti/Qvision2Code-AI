@@ -1,0 +1,69 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+myenv/
+.venv/
+venv/
+env/
+
+# Build and packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Test, coverage, and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Streamlit
+.streamlit/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editors/IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Data and artifacts (customize if needed)
+data/
+outputs/
+artifacts/
+tmp/
+temp/
+*.tmp
+
+# Model weights and large binaries
+*.pt
+*.pth
+*.onnx
+*.h5
+*.ckpt
+checkpoints/
+models/
+
+

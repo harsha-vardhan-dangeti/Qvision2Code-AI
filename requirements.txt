@@ -1,0 +1,17 @@
+fastapi==0.112.2
+uvicorn[standard]==0.30.6
+pydantic==2.9.1
+python-multipart==0.0.9
+Pillow==10.4.0
+opencv-python==4.10.0.84
+numpy==2.1.1
+shapely==2.0.6
+pytesseract==0.3.13 # optional (OCR)
+python-dotenv==1.0.1
+requests==2.32.3
+streamlit==1.37.1
+matplotlib==3.8.4
+# Optional detectors / VLMs — comment out if not needed
+ultralytics==8.3.22 # YOLOv8 optional
+torch # if you use YOLO/transformers locally
+transformers # for LLaVA or Donut, if you enable them
