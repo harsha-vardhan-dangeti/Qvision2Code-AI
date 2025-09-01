@@ -1,0 +1,14 @@
+# Copy this file to .env and fill in your actual values
+
+# Figma API Configuration
+FIGMA_ACCESS_TOKEN=your_figma_access_token_here
+FIGMA_BASE_URL=https://api.figma.com/v1
+FIGMA_TIMEOUT=30
+FIGMA_MAX_RETRIES=3
+
+# Backend Configuration
+API_HOST=localhost
+API_PORT=8000
+
+# Logging
+LOG_LEVEL=INFO
