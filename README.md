@@ -1,31 +1,13 @@
-# 🔍 Vision2Code AI - UI Layout Analysis Tool
+# 🎯 Vision2Code AI
 
-Vision2Code AI is a powerful tool that converts UI screenshots into structured JSON layouts using advanced computer vision, OCR, and AI techniques. It can detect UI components, extract text, and provide detailed analysis of web interfaces, mobile apps, and desktop applications.
-
-## ✨ Features
-
-- **🖼️ Image Analysis**: Upload UI screenshots and get detailed component analysis
-- **🔍 Component Detection**: Identify buttons, inputs, navigation bars, cards, and more
-- **📝 Text Extraction**: OCR-powered text recognition from UI elements
-- **🤖 AI Refinement**: Optional VLM (Vision Language Model) integration for enhanced accuracy
-- **🌐 Multi-Platform**: Support for web, mobile, and desktop UI analysis
-- **📊 Visual Results**: Interactive visualization of detected components
-- **🚀 Fast API**: RESTful API for easy integration
-- **💻 Web Interface**: Beautiful Streamlit-based web application
-
-## 🏗️ Architecture
-
-The project consists of two main components:
-
-1. **FastAPI Backend** (`app/`): Core analysis pipeline and REST API
-2. **Streamlit Frontend** (`web/`): User-friendly web interface
+**AI-powered UI analysis and Figma integration service that converts designs into structured code-ready data.**
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.8+
-- pip or conda
+- Virtual environment (recommended)
 
 ### Installation
 
@@ -36,10 +18,10 @@ The project consists of two main components:
    cd Vision2Code_AI
    ```
 
-2. **Create virtual environment**
+2. **Create and activate virtual environment**
 
    ```bash
-   python -m venv myenv
+   python3 -m venv myenv
    source myenv/bin/activate  # On Windows: myenv\Scripts\activate
    ```
 
@@ -49,204 +31,194 @@ The project consists of two main components:
    pip install -r requirements.txt
    ```
 
-4. **Set up environment variables** (optional)
+4. **Start the application**
    ```bash
-   cp .env.example .env
-   # Edit .env with your API keys if using VLM features
+   python start.py
    ```
 
-### Running the Application
+## 📋 Features
 
-#### Option 1: Web Interface (Recommended)
+### 🖼️ Image Analysis
 
-1. **Start the FastAPI backend**
+- Upload screenshots or UI images
+- Extract UI components automatically
+- Generate structured JSON output
+- Support for web, mobile, and desktop platforms
 
-   ```bash
-   cd app
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
+### 🎨 Figma Integration
 
-2. **Start the Streamlit frontend** (in a new terminal)
+- Connect to Figma API with personal access token
+- **LLM-powered preprocessing** for intelligent component extraction
+- Analyze Figma files with AI understanding
+- Smart component type classification
+- Context-aware data preprocessing
 
-   ```bash
-   cd web
-   streamlit run ui_inspector.py --server.port 8501
-   ```
+### 🔧 API Endpoints
 
-3. **Open your browser**
-   - Frontend: http://localhost:8501
-   - API Docs: http://localhost:8000/docs
+- `POST /analyze` - Image analysis
+- `POST /figma/analyze` - Figma file analysis
+- `POST /figma/preprocess` - Preprocess Figma data
+- `GET /health` - Health check
+- `GET /docs` - API documentation
 
-#### Option 2: API Only
-
-```bash
-cd app
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Access the API at http://localhost:8000
-
-## 📖 Usage
-
-### Web Interface
-
-1. Open the Streamlit app in your browser
-2. Upload a UI screenshot (PNG, JPG, JPEG, BMP, TIFF)
-3. Click "Analyze Image"
-4. View the detected components and their properties
-5. Explore the raw JSON output
-
-### API Usage
-
-#### Analyze an Image
-
-```bash
-curl -X POST "http://localhost:8000/analyze" \
-     -H "accept: application/json" \
-     -H "Content-Type: multipart/form-data" \
-     -F "image=@your_screenshot.png" \
-     -F "target=web"
-```
-
-#### Response Format
-
-```json
-{
-  "page": {
-    "width": 1920,
-    "height": 1080
-  },
-  "components": [
-    {
-      "id": "comp_1",
-      "type": "navbar",
-      "role": "navigation",
-      "bbox": [0, 0, 1920, 80],
-      "text": "Navigation Menu",
-      "children": []
-    },
-    {
-      "id": "comp_2",
-      "type": "button",
-      "role": "submit",
-      "bbox": [100, 200, 200, 240],
-      "text": "Submit",
-      "children": []
-    }
-  ]
-}
-```
-
-## ⚙️ Configuration
+## 🛠️ Configuration
 
 ### Environment Variables
 
 Create a `.env` file in the project root:
 
 ```env
-# Enable/disable features
+# Figma Integration (Required for Figma features)
+FIGMA_ACCESS_TOKEN=your_figma_token_here
+
+# LLM Integration (Required for intelligent preprocessing)
+OPENAI_API_KEY=your_openai_key_here
+
+# UI Analysis (Optional)
 UI2JSON_USE_YOLO=false
 UI2JSON_USE_OCR=true
 UI2JSON_USE_VLM=false
-
-# YOLO model path (if using YOLO)
-YOLO_MODEL=path/to/your/model.pt
-
-# OpenAI API key (if using VLM)
-OPENAI_API_KEY=your_openai_api_key
+YOLO_MODEL=
 ```
 
-### Feature Flags
+### Figma Setup
 
-- **YOLO Detection**: Set `UI2JSON_USE_YOLO=true` for ML-powered component detection
-- **OCR Text Extraction**: Set `UI2JSON_USE_OCR=true` for text recognition
-- **VLM Refinement**: Set `UI2JSON_USE_VLM=true` for AI-powered result refinement
+1. Go to [Figma Account Settings](https://www.figma.com/settings)
+2. Generate a personal access token
+3. Add it to your `.env` file or configure in the UI
 
-## 🔧 Development
+### LLM Setup
 
-### Project Structure
+1. Get an OpenAI API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Add it to your `.env` file as `OPENAI_API_KEY`
+3. Choose your preferred model in the UI (gpt-4o-mini recommended for cost efficiency)
+
+## 🏃‍♂️ Running the Application
+
+### Option 1: Simple Start (Recommended)
+
+```bash
+python start.py
+```
+
+This starts both backend and frontend automatically.
+
+### Option 2: Manual Start
+
+```bash
+# Terminal 1 - Backend
+source myenv/bin/activate
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+# Terminal 2 - Frontend
+source myenv/bin/activate
+streamlit run web/ui_inspector.py --server.port 8501
+```
+
+## 🌐 Access Points
+
+- **Frontend UI**: http://localhost:8501
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health
+
+## 📁 Project Structure
 
 ```
 Vision2Code_AI/
-├── app/                    # FastAPI backend
-│   ├── __init__.py        # Package initialization
-│   ├── main.py            # FastAPI app and endpoints
-│   ├── pipeline.py        # Core analysis pipeline
-│   ├── schemas.py         # Data models and utilities
-│   └── utils.py           # Helper functions
-├── web/                   # Streamlit frontend
-│   └── ui_inspector.py    # Web interface
-├── requirements.txt        # Python dependencies
-├── README.md              # This file
-└── .env.example          # Environment variables template
+├── app/                    # Backend application
+│   ├── main.py            # FastAPI main application
+│   ├── pipeline.py        # Image analysis pipeline
+│   ├── figma_service.py   # Figma API service
+│   ├── figma_routes.py    # Figma API routes
+│   ├── schemas.py         # Data schemas
+│   └── utils.py           # Utility functions
+├── web/                   # Frontend application
+│   └── ui_inspector.py    # Streamlit UI
+├── start.py               # Simple startup script
+├── requirements.txt       # Python dependencies
+└── README.md             # This file
 ```
 
-### Adding New Component Types
+## 🔧 Development
 
-1. Add the component type to `UI_LABELS` in `pipeline.py`
-2. Update the `assign_component_type` function with detection logic
-3. Test with sample images
+### Adding New Features
 
-### Extending the Pipeline
+1. Backend changes go in `app/` directory
+2. Frontend changes go in `web/` directory
+3. Update API documentation in `main.py`
+4. Test with both image and Figma workflows
 
-The pipeline is modular and can be extended:
+### Code Style
 
-- **New Detectors**: Add detection functions and integrate them in `to_detections()`
-- **Text Extractors**: Implement new OCR methods in `ocr_text()`
-- **VLM Providers**: Add support for different AI models in `refine_with_vlm()`
+- Use type hints
+- Add docstrings for functions
+- Follow PEP 8 guidelines
+- Keep functions focused and simple
 
-## 🧪 Testing
+## 🐛 Troubleshooting
 
-### Test Images
+### Common Issues
 
-Use various UI screenshots to test the system:
+**Import Errors**
 
-- Web applications
-- Mobile app interfaces
-- Desktop software
-- Different resolutions and layouts
+```bash
+# Make sure virtual environment is activated
+source myenv/bin/activate
+```
 
-### API Testing
+**Port Already in Use**
 
-Use the built-in FastAPI docs at http://localhost:8000/docs for interactive testing.
+```bash
+# Kill processes on ports 8000 and 8501
+lsof -ti:8000 | xargs kill -9
+lsof -ti:8501 | xargs kill -9
+```
+
+**Figma API Errors**
+
+- Verify your access token is correct
+- Check file permissions in Figma
+- Ensure file key is from a `/file/` URL, not `/design/`
+
+**Timeout Errors**
+
+- Large Figma files may take longer to process
+- The system automatically adjusts timeouts based on file size
+- Try with smaller files or specific node IDs
+
+### Logs
+
+Check the terminal output for detailed error messages and processing logs.
+
+## 📊 Performance
+
+- **Image Analysis**: Typically 2-5 seconds
+- **Figma Processing**: 10-60 seconds depending on file size
+- **Memory Usage**: Optimized for files up to 100MB
+- **Concurrent Users**: Supports multiple simultaneous requests
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Test thoroughly
 5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- OpenCV for computer vision capabilities
-- Tesseract for OCR functionality
-- Ultralytics for YOLO integration
-- FastAPI for the robust backend framework
-- Streamlit for the beautiful web interface
+This project is licensed under the MIT License.
 
 ## 🆘 Support
 
-If you encounter any issues:
+For issues and questions:
 
-1. Check the console logs for error messages
-2. Verify all dependencies are installed correctly
-3. Ensure the FastAPI server is running
-4. Check the API documentation at `/docs`
+1. Check the troubleshooting section
+2. Review API documentation at `/docs`
+3. Check logs for detailed error messages
+4. Create an issue with detailed information
 
-For feature requests or bug reports, please open an issue on the project repository.
+---
 
-✅ Application Status: RUNNING
-Backend (FastAPI):
-✅ Running on: http://localhost:8000
-✅ Health check: http://localhost:8000/health
-✅ API endpoint: http://localhost:8000/analyze
-✅ API documentation: http://localhost:8000/docs
-Frontend (Streamlit):
-✅ Running on: http://localhost:8501
-✅ Web interface is accessible
+**Vision2Code AI** - Bridging the gap between design and development 🚀

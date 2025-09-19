@@ -572,7 +572,36 @@ def render_figma_integration(api_endpoint):
                 figma_file_key = extracted_key
                 st.session_state.current_file_key = extracted_key
     
+    # LLM Configuration
+    st.markdown("### 🤖 LLM Configuration")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        llm_model = st.selectbox(
+            "LLM Model",
+            options=["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo"],
+            index=0,
+            help="Choose the LLM model for intelligent preprocessing"
+        )
+        
+        llm_api_key = st.text_input(
+            "OpenAI API Key (optional)",
+            type="password",
+            placeholder="sk-...",
+            help="Leave empty to use environment variable OPENAI_API_KEY"
+        )
+    
+    with col2:
+        st.info("""
+        **LLM-Powered Preprocessing:**
+        - Intelligent component extraction
+        - Smart type classification
+        - Context-aware analysis
+        - Better structure understanding
+        """)
+    
     # Figma options
+    st.markdown("### ⚙️ Analysis Options")
     col1, col2 = st.columns(2)
     
     with col1:
@@ -617,12 +646,16 @@ def render_figma_integration(api_endpoint):
             payload = {
                 "file_key": figma_file_key,
                 "target_platform": figma_target_platform,
+                "llm_model": llm_model,
                 "include_raw": include_raw,
                 "include_tree": include_tree
             }
             
             if node_ids:
                 payload["node_ids"] = node_ids
+            
+            if llm_api_key:
+                payload["llm_api_key"] = llm_api_key
             
             # Make API call with custom headers for token
             headers = {
@@ -713,29 +746,33 @@ def render_figma_integration(api_endpoint):
                 else:
                     st.code(raw_json_str)
                 
-                # Step 3: Send to preprocessing service
+                # Step 3: Send to LLM preprocessing service
                 with progress_container:
-                    st.info("🔄 Step 3/4: Sending data to preprocessing service...")
+                    st.info("🤖 Step 3/4: Sending data to LLM preprocessing service...")
                 
                 # Calculate file size for user info
                 file_size_mb = len(json.dumps(figma_data)) / 1024 / 1024
-                st.info(f"📊 File size: {file_size_mb:.2f} MB - Using optimized processing...")
+                st.info(f"📊 File size: {file_size_mb:.2f} MB - Using LLM-powered processing...")
                 
-                # Show processing strategy based on file size
-                if file_size_mb > 100:
-                    st.warning("⚠️ Very large file detected - using chunked processing (may take 5-10 minutes)")
-                elif file_size_mb > 50:
-                    st.info("📊 Large file detected - using extended processing (may take 3-5 minutes)")
-                else:
-                    st.success("✅ Normal file size - standard processing (should complete quickly)")
+                # Show LLM processing info
+                st.info(f"🧠 Using {llm_model} for intelligent preprocessing")
+                st.info("💡 LLM will analyze and extract components with better understanding")
                 
-                # Now send to our preprocessing service
-                # Server handles timeout based on file size automatically
-                with st.spinner("🔄 Processing Figma data... This may take several minutes for large files."):
+                # Prepare LLM preprocessing request
+                preprocess_payload = {
+                    "figma_data": figma_data,
+                    "llm_model": llm_model
+                }
+                
+                if llm_api_key:
+                    preprocess_payload["llm_api_key"] = llm_api_key
+                
+                # Now send to our LLM preprocessing service
+                with st.spinner("🤖 LLM is analyzing your Figma data... This may take 1-3 minutes."):
                     response = requests.post(
                         f"{api_endpoint}/figma/preprocess",
-                        json=figma_data,
-                        timeout=None  # Let server handle timeout, no client-side limit
+                        json=preprocess_payload,
+                        timeout=300  # 5 minutes for LLM processing
                     )
                 
                 if response.status_code == 200:
@@ -756,7 +793,11 @@ def render_figma_integration(api_endpoint):
                         # Show processing info if available
                         if "processing_info" in result:
                             processing_info = result["processing_info"]
-                            st.success(f"⚡ Processing completed successfully!")
+                            st.success(f"🤖 LLM Processing completed successfully!")
+                            
+                            # Show LLM info
+                            if "llm_model" in processing_info:
+                                st.info(f"🧠 Processed using: {processing_info['llm_model']}")
                             
                             col1, col2, col3, col4 = st.columns(4)
                             with col1:

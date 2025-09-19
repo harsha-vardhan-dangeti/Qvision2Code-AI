@@ -4,8 +4,8 @@ import numpy as np
 from PIL import Image
 import cv2
 from dotenv import load_dotenv
-from schemas import make_empty_ui_json, add_component
-from utils import to_cv, to_pil, merge_overlaps
+from .schemas import make_empty_ui_json, add_component
+from .utils import to_cv, to_pil, merge_overlaps
 
 load_dotenv()
 
