@@ -33,8 +33,8 @@ def find_image_fill_nodes(figma_document):
 
 
 # Replace with your actual Figma API token and file key
-# headers = { "X-Figma-Token": "figd_eG7Z6TrMOiFJBDuMHzv7DZpwbQjS4UICLSVhxBLN" }
-# file_key = "pv7W1INwSfygXFnX90BgFn"
+headers = { "X-Figma-Token": "" }
+file_key = ""
 
 response = requests.get(f"https://api.figma.com/v1/files/{file_key}", headers=headers)
 figma_data = response.json()
