@@ -2,8 +2,8 @@ import requests
 import json
 
 # Replace with your actual Figma credentials
-FIGMA_API_TOKEN = 'figd_eG7Z6TrMOiFJBDuMHzv7DZpwbQjS4UICLSVhxBLN'
-FILE_KEY = 'pv7W1INwSfygXFnX90BgFn'
+# FIGMA_API_TOKEN = 'figd_eG7Z6TrMOiFJBDuMHzv7DZpwbQjS4UICLSVhxBLN'
+# FILE_KEY = 'pv7W1INwSfygXFnX90BgFn'
 
 headers = {
     'X-Figma-Token': FIGMA_API_TOKEN
